@@ -1,11 +1,24 @@
 const axios = require('axios');
-const { GraphQLObjectType, GraphQLString, GraphQLSchema } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLList } = require('graphql');
 
 // Quote Type
 const QuoteType = new GraphQLObjectType({
     name: 'Quote',
     fields: () => ({
-        value: { type: GraphQLString }
+        value: { type: GraphQLString },
+        _embedded: { 
+            type: new GraphQLObjectType({
+                name: 'Embedded',
+                fields: () => ({
+                    source: { type: GraphQLList(new GraphQLObjectType({
+                        name: 'Source',
+                        fields: () => ({
+                            url: { type: GraphQLString}
+                        })
+                    }))}
+                })
+            })
+        }
     })
 })
 

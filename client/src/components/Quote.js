@@ -7,7 +7,12 @@ function Quote() {
   const { loading, error, data } = useQuery(gql`
     {
       quote {
-        value
+        value,
+        _embedded {
+          source {
+            url
+          }
+        }
       }
     }
   `);
@@ -17,7 +22,8 @@ function Quote() {
 
   return(
     <>
-      <span>{data.quote.value}</span>
+      <p>{data.quote.value}</p>
+      <p><a href={data.quote._embedded.source[0].url}>Source</a></p>
     </>
   )
 }
